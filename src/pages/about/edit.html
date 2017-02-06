@@ -1,0 +1,57 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            编辑书籍
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="editPage">
+    <ion-list>
+        <ion-item>
+            <ion-label>书名</ion-label>
+            <ion-input type="text" [(ngModel)]="bookList.bookname"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>价格</ion-label>
+            <ion-input type="number" [(ngModel)]="bookList.price"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>地区</ion-label>
+            <ion-select [(ngModel)]="bookList.place">
+                <ion-option value="广州">广州</ion-option>
+                <ion-option value="安徽">安徽</ion-option>
+                <ion-option value="香港">香港</ion-option>
+                <ion-option value="台湾">台湾</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>类型</ion-label>
+            <ion-select [(ngModel)]="bookList.classify">
+                <ion-option value="科幻小说">科幻小说</ion-option>
+                <ion-option value="言情小说">言情小说</ion-option>
+                <ion-option value="教科书">教科书</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>交换方式</ion-label>
+            <ion-select [(ngModel)]="bookList.change">
+                <ion-option value="当面交换">当面交换</ion-option>
+                <ion-option value="快递交换">快递交换</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>书本简介</ion-label>
+            <ion-textarea [(ngModel)]="bookList.bookcontent"></ion-textarea>
+        </ion-item>
+        <ion-item (click)="imageEdit()">
+            <h2 item-left grey>书本封面</h2>
+            <div class="textAlignCenter">
+                <img src="{{bookList.image}}"/>
+            </div>
+        </ion-item>
+    </ion-list>
+    <div padding>
+        <button block round primary (click)="editConfirm()">确认修改</button>
+        <button block round danger (click)="removeBook()">删除书籍</button>
+    </div>
+</ion-content>

@@ -1,0 +1,19 @@
+.edit {
+}
+
+.editPage {
+  //重写textarea
+  ion-textarea {
+    border: 2px dashed #c8c7cc;
+    margin: 0.2rem;
+  }
+  ion-textarea textarea {
+    margin: 0.9rem;
+    height: 5rem;
+  }
+  //重写img
+  ion-item img {
+    border: 2px dashed #c8c7cc;
+    padding: 0.2rem;
+  }
+}

@@ -1,0 +1,61 @@
+.about {
+}
+
+.messagePage {
+  //重写ion-list
+  ion-list {
+    margin-bottom: 1rem;
+  }
+  //重写ion-item
+  ion-item {
+    border-bottom: 1px solid #c8c7cc;
+    padding: 0.3rem 0;
+  }
+  //重写.item-inner
+  ion-list .item .item-inner {
+    border-bottom: 0 solid #c8c7cc;
+  }
+  //重写ion-avatar
+  ion-avatar {
+    margin: 0;
+    margin-right: 0.8rem;
+  }
+  //重写img
+  ion-avatar img {
+    max-width: 6rem;
+    max-height: 6rem;
+    border-radius: 0;
+  }
+  //重写ion-label
+  .input-wrapper ion-label {
+    margin: 0;
+  }
+  //重写div
+  ion-label div {
+    padding: 0.2rem 0;
+  }
+  .book-situation {
+    border: 1px solid #c8c7cc;
+    border-radius: 15%;
+    margin-left: 0.7rem;
+    padding: 1px;
+    display: inline;
+  }
+  .book-name,
+  .book-location,
+  .book-type,
+  .book-change,
+  .book-price {
+    display: inline;
+  }
+  .book-type, .book-change {
+    margin-left: 0.7rem;
+  }
+  .book-user {
+    margin-left: 0.5rem;
+    display: inline;
+  }
+  .more {
+    min-height: 2.3rem;
+  }
+}

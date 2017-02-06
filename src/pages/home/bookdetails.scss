@@ -1,0 +1,28 @@
+.bookdetails {
+}
+
+.bookDetailPage {
+  //重写.item
+  .item {
+    padding-left: 0.5rem;
+    padding-right: 0;
+    border-bottom: 1px solid #c8c7cc;
+  }
+  //重写.item-inner
+  ion-list .item .item-inner {
+    border-bottom: 0 solid #c8c7cc;
+  }
+  //重写ion-label
+  ion-label {
+    margin: 0;
+    padding: 1rem;
+    white-space: normal;
+  }
+  .book-content {
+    margin: 0.5rem 0;
+  }
+  .bookInfo button {
+    height: 2.5rem;
+    font-size: 1.6rem;
+  }
+}

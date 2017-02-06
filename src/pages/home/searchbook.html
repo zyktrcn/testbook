@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            搜索结果
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="searchBook">
+    <ion-list>
+        <ion-item *ngFor="let book of bookList" (click)="bookDetailClick($even,book)">
+            <ion-avatar item-left>
+                <img src="{{book.image}}"/>
+            </ion-avatar>
+            <div>
+                <h2 class="book-name" primary>{{book.bookname}}</h2>
+                <p class="book-situation">{{book.status}}</p>
+            </div>
+            <div>
+                <ion-icon name="home"></ion-icon>
+                <h3 class="book-location">{{book.place}}</h3>
+                <h3 class="book-type">{{book.classify}}</h3>
+                <h3 class="book-change">{{book.change}}</h3>
+            </div>
+            <div>
+                <h3 class="book-price" orange>${{book.price}}</h3>
+                <h3 class="book-user" light>用户：{{book.fromusername}}</h3>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-content>

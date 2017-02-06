@@ -1,0 +1,12 @@
+.discussPage {
+  //重写textarea
+  ion-textarea {
+    border: 2px dashed #c8c7cc;
+    margin: 0.2rem;
+    margin-too: 2rem;
+  }
+  ion-textarea textarea {
+    margin: 0.9rem;
+    height: 20rem;
+  }
+}

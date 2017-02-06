@@ -1,0 +1,44 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            交换书籍
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="changePage">
+    <ion-list>
+        <ion-item class="textAlignCenter bookInfo">
+            <img src="{{bookList.bookHead}}"/>
+            <h1 class="book-name" primary>{{bookList.bookName}}</h1>
+            <ion-note>{{bookList.bookLocation}}</ion-note>
+            <p class="book-content">{{bookList.bookContent}}</p>
+        </ion-item>
+    </ion-list>
+    <ion-list radio-group>
+        <ion-list-header>
+            选择交换方式
+        </ion-list-header>
+        <ion-item>
+            <ion-label>当面交换</ion-label>
+            <ion-radio checked="true" value="mj"></ion-radio>
+        </ion-item>
+        <ion-item>
+            <ion-label>快递交换</ion-label>
+            <ion-radio value="kd"></ion-radio>
+        </ion-item>
+    </ion-list>
+    <ion-list>
+        <ion-item>
+            <ion-label>用作交换的书籍</ion-label>
+            <ion-select>
+                <ion-option value="testbook1">Test Book1</ion-option>
+                <ion-option value="testbook2">Test Book2</ion-option>
+                <ion-option value="testbook3">Test Book3</ion-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+    <div padding>
+        <button block round primary>确认交换</button>
+        <button block round danger (click)="cancel()">取消</button>
+    </div>
+</ion-content>

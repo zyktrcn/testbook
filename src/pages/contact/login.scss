@@ -1,0 +1,57 @@
+.contact {}
+
+.loginPage {
+    //重写padding
+    scroll-content {
+        padding: 0.8em 3em;
+    }
+    //重写ion-list
+    ion-list {
+        margin-bottom: 2.4em;
+    }
+    //重写ion-item padding
+    ion-item {
+        padding-left: 0;
+    }
+    .item {
+        min-height: 2.7em;
+    }
+    ion-list > .item:first-child {
+        border-top: 0 solid #c8c7cc;
+    }
+    ion-list > .item:last-child,
+    ion-list > .item-wrapper:last-child .item {
+        border-bottom: 0 solid #c8c7cc;
+    }
+    ion-list .item .item-inner {
+        border-bottom: 0 solid #c8c7cc;
+    }
+    //重写input margin
+    input {
+        margin-top: 0;
+        margin-bottom: 0;
+        border-bottom: 1px solid #00A1A7
+    }
+    //重写ion-label margin
+    ion-label {
+        margin-top: 0;
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+    .logo {
+        padding: 1em 0;
+        text-align: center;
+    }
+    .logo img {
+        width: 5em;
+    }
+    ion-row {
+        padding: 0;
+    }
+    ion-col {
+        padding: 0.4em;
+    }
+    .logins ion-col {
+        text-align: center;
+    }
+}

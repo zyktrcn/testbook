@@ -1,0 +1,58 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            登陆
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="loginPage">
+    <ion-row>
+        <ion-col class="logo">
+                <img src="../images/plant-icon.png" />
+        </ion-col>
+    </ion-row>
+    <ion-list>
+        <ion-item>
+            <ion-label>
+                <ion-icon name="lock"></ion-icon>
+            </ion-label>
+            <ion-input type="text" placeholder="邮箱" value="" [(ngModel)]="user.email"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <ion-icon name="lock"></ion-icon>
+            </ion-label>
+            <ion-input type="password" placeholder="密码" value="" [(ngModel)]="user.password"></ion-input>
+        </ion-item>
+    </ion-list>
+    <div>
+        <button block round (click)="login()">登陆</button>
+    </div>
+    <div>
+        <button block round outline (click)="register()">注册</button>
+    </div>
+    <ion-row>
+        <ion-col>
+            <div>
+                <button block clear small>忘记密码？</button>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row class="logins">
+        <ion-col width-33>
+            <button round clear>
+                <ion-icon name="heart" primary></ion-icon>
+            </button>
+        </ion-col>
+        <ion-col width-33>
+            <button round clear>
+                <ion-icon name="home" primary></ion-icon>
+            </button>
+        </ion-col>
+        <ion-col width-33>
+            <button round clear>
+                <ion-icon name="people" primary></ion-icon>
+            </button>
+        </ion-col>
+    </ion-row>
+</ion-content>

@@ -1,0 +1,34 @@
+.registerPage {
+  //重写input
+  .text-input {
+    margin: 0.4em 0 0.5em 0.4em;
+    border-bottom: 1px solid #00A1A7;
+    font-size: 1.3em;
+  }
+  //重写ion-icon
+  ion-icon {
+    margin: 0.4em 0 0 0;
+    font-size: 1.8em;
+  }
+  //重写button
+  .button {
+    height: 2.3em;
+  }
+  //重写ion-item外边框
+  ion-list > .item:first-child {
+    border: 0 solid #c8c7cc;
+  }
+  ion-list .item .item-inner {
+    border-bottom: 0 solid #c8c7cc;
+  }
+  ion-list > .item:last-child,
+  ion-list > .item-wrapper:last-child .item {
+    border-bottom: 0 solid #c8c7cc;
+  }
+  ion-row {
+    padding: 0;
+  }
+  ion-col {
+    padding: 0.4em;
+  }
+}

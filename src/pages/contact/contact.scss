@@ -1,0 +1,16 @@
+.contact {
+}
+
+.userCenterPage {
+  background: #efeff4;
+
+  //重写DIV line-heigh
+  .item-inner div {
+    line-height: 1.6rem;
+    margin-top: 0.2em;
+  }
+
+  .basicInfo {
+    margin: 1.2em 0;
+  }
+}

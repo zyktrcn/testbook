@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            注册
+        </ion-title>
+        <button ion-buttons start>
+            <button (click)="dismiss()">
+                <span>返回</span>
+            </button>
+        </button>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="registerPage" padding>
+    <ion-list>
+        <ion-item class="padding-leftClear">
+            <ion-label stacked>用户名</ion-label>
+            <ion-input type="text" value="" [(ngModel)]="user.username"></ion-input>
+        </ion-item>
+        <ion-item class="padding-leftClear">
+            <ion-label stacked>密码</ion-label>
+            <ion-input type="password" value="" [(ngModel)]="user.password"></ion-input>
+        </ion-item>
+        <ion-item class="padding-leftClear">
+            <ion-label stacked>确认密码</ion-label>
+            <ion-input type="password" value="" [(ngModel)]="user.passwordconfirm"></ion-input>
+        </ion-item>
+        <ion-item class="padding-leftClear">
+            <ion-label stacked>邮箱</ion-label>
+            <ion-input type="tel" value="" [(ngModel)]="user.email"></ion-input>
+        </ion-item>
+    </ion-list>
+    <button block round (click)="register()">注册</button>
+</ion-content>

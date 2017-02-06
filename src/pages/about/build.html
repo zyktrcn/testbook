@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar navbar>
+        <ion-title>
+            我的发布
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="attendPage">
+    <ion-list>
+        <ion-item *ngFor="let userBuild of userBuildList" (click)="bookDetailEdit($even,userBuild)">
+            <ion-avatar item-left>
+                <img src="{{userBuild.image}}"/>
+            </ion-avatar>
+            <div>
+                <h2 class="book-name" primary>{{userBuild.bookname}}</h2>
+                <p class="book-situation">{{userBuild.status}}</p>
+            </div>
+            <div>
+                <ion-icon name="home"></ion-icon>
+                <h3 class="book-location">{{userBuild.place}}</h3>
+                <h3 class="book-type">{{userBuild.classify}}</h3>
+                <h3 class="book-change">{{userBuild.change}}</h3>
+            </div>
+            <div>
+                <h3 class="book-price" orange>${{userBuild.price}}</h3>
+                <h3 class="book-user" light>用户：{{userBuild.fromusername}}</h3>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-content>

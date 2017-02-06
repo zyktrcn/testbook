@@ -1,0 +1,37 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            用户中心
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="userCenterPage">
+    <ion-list class="basicInfo">
+        <ion-item (click)="imageEdit()">
+            <ion-avatar item-right>
+                <img src="{{userInfo.image}}"/>
+            </ion-avatar>
+            <div item-right>></div>
+            <h2>头像</h2>
+        </ion-item>
+        <ion-item (click)="userNameEdit()">
+            <h2 item-right>{{userInfo.username}}</h2>
+            <div item-right>></div>
+            <h2>名字</h2>
+        </ion-item>
+        <ion-item>
+            <h2 item-right>{{userInfo.email}}</h2>
+            <div item-right>></div>
+            <h2>邮箱</h2>
+        </ion-item>
+        <ion-item>
+            <h2 item-right>{{userInfo.coin}}</h2>
+            <div item-right>></div>
+            <h2>金币</h2>
+        </ion-item>
+    </ion-list>
+
+    <div padding>
+        <button block round (click)="loginOut()">注销</button>
+    </div>
+</ion-content>

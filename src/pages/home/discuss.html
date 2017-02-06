@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            评论
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="discussPage">
+    <div>
+        <ion-textarea [(ngModel)]="usercommend"></ion-textarea>
+    </div>
+    <div padding>
+        <button block round primary (click)="comment()">确认</button>
+        <button block round danger (click)="cancel()">取消</button>
+    </div>
+</ion-content>

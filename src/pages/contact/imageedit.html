@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            用户中心
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="ImageEditPage">
+    <ion-list radio-group [(ngModel)]="imageurl">
+        <ion-list-header>
+            选择照片
+        </ion-list-header>
+        <ion-item *ngFor="let image of imagelist">
+            <ion-label>
+                <img src="{{image}}" />
+            </ion-label>
+            <ion-radio value="{{image}}"></ion-radio>
+        </ion-item>
+    </ion-list>
+    <div class="clear"></div>
+    <div padding>
+        <button block round (click)="imageUpload()">确定</button>
+    </div>
+</ion-content>
