@@ -1,10 +1,14 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {BookDetails} from '../home/bookdetails';
+import {Wilddog} from 'wilddog';
+
 
 @Component({
     templateUrl: 'attend.html'
 })
+
+
 export class UserAttend {
     userAttendList;
 

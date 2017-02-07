@@ -4,7 +4,7 @@ import {NavController, ModalController} from 'ionic-angular';
 import {BookDetails} from './bookdetails';
 import {SearchPage} from './search';
 import {CreatePage} from './create';
-import 'wilddog';
+import {Wilddog} from 'wilddog';
 
 @Component({
     templateUrl: 'home.html'
@@ -16,22 +16,24 @@ export class HomePage {
 
     constructor(private navCtrl:NavController, private modalCtrl:ModalController) {
 
-        this.bookList = [];
         this.book = {};
         this.book.bookName = "";
 
     }
 
-    onPageWillEnter() {
+    ionViewWillEnter() {
         this.bookList = [];
-        var ref = new Wilddog("https://plant-book.wilddogio.com/books");
-        ref.orderByChild("bookname").once("value", (snapshot) => {
-            snapshot.forEach((data) => {
-                console.log(data.key());
-                console.log(data.val());
-                this.bookList.push(data.val());
+        var config = {
+            syncURL: "https://plant-book.wilddogio.com/",
+        };
+        Wilddog.initializeApp(config);
+        var ref = Wilddog.sync().ref("books");
+        ref.on("value",function(snapshot){
+            snapshot.forEach(function(snap){
+                this.bookList.push(snap.val());
             });
         });
+
     }
 
     bookDetailClick(event, book) {
