@@ -4,35 +4,36 @@ import {NavController, ModalController} from 'ionic-angular';
 import {BookDetails} from './bookdetails';
 import {SearchPage} from './search';
 import {CreatePage} from './create';
-import {Wilddog} from 'wilddog';
+import wilddog from 'wilddog';
 
 @Component({
     templateUrl: 'home.html'
 })
 export class HomePage {
-
-    private bookList:any;
-    private book:any;
+    private bookList : any;
+    private book : any;
 
     constructor(private navCtrl:NavController, private modalCtrl:ModalController) {
-
+        this.bookList = [];
         this.book = {};
         this.book.bookName = "";
 
     }
 
     ionViewWillEnter() {
-        this.bookList = [];
+        var booklist : any[] = [];
         var config = {
-            syncURL: "https://plant-book.wilddogio.com/",
+            syncURL: "https://plant-book.wilddogio.com/"
         };
-        Wilddog.initializeApp(config);
-        var ref = Wilddog.sync().ref("books");
+        wilddog.initializeApp(config);
+        var ref = wilddog.sync().ref("books");
         ref.on("value",function(snapshot){
             snapshot.forEach(function(snap){
-                this.bookList.push(snap.val());
+              booklist.push(snap.val());
             });
         });
+      console.log(booklist);
+      this.bookList = booklist;
 
     }
 
