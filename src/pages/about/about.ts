@@ -1,11 +1,10 @@
-/// <reference path="../tabs/wilddog.d.ts" />
 import {Component} from '@angular/core';
 import {NavController, ToastController} from 'ionic-angular';
 import {BookDetails} from '../home/bookdetails';
 import {BookEdit} from '../about/edit';
 import {UserAttend} from '../about/attend';
 import {UserBuild} from '../about/build';
-import 'wilddog';
+import wilddog from 'wilddog';
 
 @Component({
     templateUrl: 'about.html'
@@ -16,7 +15,10 @@ export class AboutPage {
     private userBuildList:any;
 
     constructor(private navCtrl:NavController, private toastCtrl: ToastController) {
-
+        var config = {
+              authDomain: "testbookapp.wilddog.com"
+        };
+        wilddog.initializeApp(config);
     }
 
     listBook(type, bookList) {
@@ -41,11 +43,7 @@ export class AboutPage {
         }
     }
 
-    onPageWillEnter() {
-        this.userAttendList = [];
-        this.listBook('touid', this.userAttendList);
-        this.userBuildList = [];
-        this.listBook('fromuid', this.userBuildList);
+    ionViewWillEnter(){
     }
 
     bookDetailClick(event, userAttend) {

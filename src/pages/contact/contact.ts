@@ -1,9 +1,8 @@
-/// <reference path="../tabs/wilddog.d.ts" />
-import 'wilddog';
 import {Component} from '@angular/core';
 import {NavController, NavParams, ModalController, AlertController} from 'ionic-angular';
 import {Login} from './login';
 import {imageEditPage} from './imageedit';
+import wilddog from 'wilddog';
 
 
 @Component({

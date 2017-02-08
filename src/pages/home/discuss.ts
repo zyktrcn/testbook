@@ -1,7 +1,6 @@
-/// <reference path="../tabs/wilddog.d.ts" />
-import 'wilddog';
 import {Component, isDevMode} from '@angular/core';
 import {NavController, ViewController, NavParams, ToastController} from 'ionic-angular';
+import wilddog from 'wilddog';
 
 @Component({
     templateUrl: 'discuss.html'

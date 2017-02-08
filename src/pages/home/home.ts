@@ -1,4 +1,3 @@
-/// <reference path="../tabs/wilddog.d.ts" />
 import {Component} from '@angular/core';
 import {NavController, ModalController} from 'ionic-angular';
 import {BookDetails} from './bookdetails';
@@ -7,48 +6,61 @@ import {CreatePage} from './create';
 import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'home.html'
+  templateUrl: 'home.html'
 })
 export class HomePage {
-    private bookList : any;
-    private book : any;
+  private bookList:any;
+  private book:any;
 
-    constructor(private navCtrl:NavController, private modalCtrl:ModalController) {
-        this.bookList = [];
-        this.book = {};
-        this.book.bookName = "";
+  constructor(private navCtrl:NavController, private modalCtrl:ModalController) {
+    this.bookList = [];
+    this.book = {};
+    this.book.bookName = "";
+    
+  }
 
-    }
+  ionViewWillEnter() {
+    var booklist:any[] = [];
+    var syncConfig = {
+      syncURL: "https://plant-book.wilddogio.com/"
+    };
+    wilddog.initializeApp(syncConfig);
+    var ref = wilddog.sync().ref("books");
+    ref.on("value", function (snapshot) {
+      snapshot.forEach(function (snap) {
+        booklist.push(snap.val());
+      });
+    });
+    console.log(booklist);
+    this.bookList = booklist;
 
-    ionViewWillEnter() {
-        var booklist : any[] = [];
-        var config = {
-            syncURL: "https://plant-book.wilddogio.com/"
-        };
-        wilddog.initializeApp(config);
-        var ref = wilddog.sync().ref("books");
-        ref.on("value",function(snapshot){
-            snapshot.forEach(function(snap){
-              booklist.push(snap.val());
-            });
-        });
-      console.log(booklist);
-      this.bookList = booklist;
+    var authConfig = {
+      authDomain: "testbookapp.wilddog.com"
+    };
+    wilddog.initializeApp(authConfig);
+    wilddog.auth().signInWithEmailAndPassword('594823346@qq.com', '123456');
+    var stopListen = wilddog.auth().onAuthStateChanged(function(user){
+      if(user){
+        console.log('User is logined in');
+        console.log(user);
+      }else{
+        console.log('No user is logined in');
+      }
+    })
+  }
 
-    }
+  bookDetailClick(event, book) {
+    this.navCtrl.push(BookDetails, {book: book});
+  }
 
-    bookDetailClick(event, book) {
-        this.navCtrl.push(BookDetails, {book: book});
-    }
+  search() {
+    let searchModal = this.modalCtrl.create(SearchPage);
+    searchModal.present();
+  }
 
-    search() {
-        let searchModal = this.modalCtrl.create(SearchPage);
-        searchModal.present();
-    }
-
-    create() {
-        let createModal = this.modalCtrl.create(CreatePage);
-        createModal.present();
-    }
+  create() {
+    let createModal = this.modalCtrl.create(CreatePage);
+    createModal.present();
+  }
 
 }

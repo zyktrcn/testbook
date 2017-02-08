@@ -1,8 +1,7 @@
-/// <reference path="../tabs/wilddog.d.ts" />
-import 'wilddog';
 import {Component} from '@angular/core';
 import {NavController, ViewController, NavParams, ToastController} from 'ionic-angular';
 import {Http} from "@angular/http";
+import wilddog from 'wilddog';
 
 @Component({
     templateUrl: 'bookimageedit.html'
