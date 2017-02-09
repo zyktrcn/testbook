@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, NavParams, ToastController} from 'ionic-angular';
 import {bookImageEditPage} from '../home/bookimageedit';
+import wilddog from 'wilddog';
 
 @Component({
     templateUrl: 'edit.html'
@@ -15,8 +16,26 @@ export class BookEdit {
                 private navParams:NavParams,
                 private toastCtrl:ToastController) {
         this.bookList = navParams.data.book;
+    }
 
-        var bookref = new Wilddog("https://plant-book.wilddogio.com/books");
+    ionViewWillEnter() {
+        var userConfig = {
+            authDomain : 'plant-book.wilddog.com'
+        }
+        wilddog.initializeApp(userConfig);
+        wilddog.auth().onAuthStateChanged((user) => {
+            if(user){
+                console.log('User is logined in');
+            }else{
+                console.log('No suer is logined in');
+            }
+        })
+
+        var syncConfig = {
+            syncURL : 'https://plant-book.wilddogio.com'
+        }
+        wilddog.initializeApp(syncConfig);
+        var bookref = wilddog.sync().ref('books');
         bookref.orderByChild('bookname').equalTo(this.bookList.bookname).once("value", (snapshot) => {
             snapshot.forEach((data) => {
                 this.bid = data.val().bid;
@@ -71,7 +90,7 @@ export class BookEdit {
             });
             bookImageToast.present();
         } else {
-            var bookref = new Wilddog("https://plant-book.wilddogio.com/books/" + this.bid);
+            var bookref = wilddog.sync().ref('books').child(this.bid);
             bookref.update({
                 'bookname': this.bookList.bookname,
                 'price': this.bookList.price,
@@ -91,7 +110,7 @@ export class BookEdit {
      * 删除书籍
      */
     removeBook() {
-        var bookref = new Wilddog("https://plant-book.wilddogio.com/books/" + this.bid);
+        var bookref = wilddog.sync().ref('books').child(this.bid);
         bookref.remove();
         console.log('success to remove the book');
 

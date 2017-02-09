@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {BookEdit} from '../about/edit';
+import wilddog from 'wilddog';
 
 @Component({
     templateUrl: 'build.html'
@@ -10,21 +11,45 @@ export class UserBuild {
 
     constructor(private navCtrl:NavController) {
         this.userBuildList = [];
+    }
 
-        var userref = new Wilddog("https://plant-book.wilddogio.com");
-        var authData = userref.getAuth();
-        if(authData){
-            var bookref = new Wilddog("https://plant-book.wilddogio.com/books");
-            bookref.orderByChild('fromuid').equalTo(authData.uid).once("value", (snapshot) => {
-                snapshot.forEach((data) => {
-                    console.log(data.key());
-                    console.log(data.val());
-                    this.userBuildList.push(data.val());
-                });
+    ionViewWillEnter() {
+        var syncConfig = {
+            syncURL : 'https://plant-book.wilddogio.com'
+        };
+        wilddog.initializeApp(syncConfig);
+
+        var userConfig = {
+            authDomain : 'plant-book.wilddog.com'
+        };
+        wilddog.initializeApp(userConfig);
+
+        wilddog.auth().onAuthStateChanged( (user) => {
+            this.userBuildList = [];
+            if(user){
+                console.log('User is logined in');
+                this.listBook(user,'fromuid',this.userBuildList);
+            }else{
+                console.log('No user is logined in');
+            }
+        })
+    }
+
+    listBook(user, type, bookList) {
+        var syncConfig = {
+          syncURL: "https://plant-book.wilddogio.com/"
+        };
+        wilddog.initializeApp(syncConfig);
+
+        var bookref = wilddog.sync().ref('books');
+        console.log(bookref);
+        bookref.orderByChild(type).equalTo(user.uid).once("value", (snapshot) => {
+            snapshot.forEach((data) => {
+                console.log(data.key());
+                console.log(data.val());
+                bookList.push(data.val());
             });
-        }else{
-            console.log('fail to get booklist');
-        }
+        });
     }
 
     bookDetailEdit(event, userBuild) {

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, ToastController, LoadingController} from 'ionic-angular';
 import {bookImageEditPage} from '../home/bookimageedit';
+import wilddog from 'wilddog';
 
 @Component({
     templateUrl: 'create.html'
@@ -13,6 +14,18 @@ export class CreatePage {
                 private toastCtrl:ToastController,
                 private loadingCtrl:LoadingController) {
         this.bookListInitial();
+    }
+
+    ionViewWillEnter() {
+        var userConfig = {
+            authDomain : 'plant-book.wilddog.com'
+        }
+        wilddog.initializeApp(userConfig);
+
+        var syncConfig = {
+            syncURL : 'https://plant-book.wilddogio.com'
+        }
+        wilddog.initializeApp(syncConfig);
     }
 
     bookListInitial() {
@@ -70,10 +83,12 @@ export class CreatePage {
             });
             createBookLoading.present();
 
-            var ref = new Wilddog("https://plant-book.wilddogio.com");
-            var authData = ref.getAuth();
-            if(authData) {
-                this.createBook(authData.uid);
+            console.log('Getting currentUser');
+            var currentUser = wilddog.auth().currentUser;
+            console.log(currentUser);
+
+            if(currentUser || currentUser != undefined) {
+                this.createBook(currentUser.uid);
             } else {
                 var authToast = this.toastCtrl.create({
                     message: '请先登录',
@@ -96,26 +111,30 @@ export class CreatePage {
 
     createBook(uid:string) {
         var bid:string = this.uuid();
-        var setBookList = new Wilddog('https://plant-book.wilddogio.com/books/' + bid);
-        var userref = new Wilddog("https://plant-book.wilddogio.com/users/" + uid);
+        var setBookList = wilddog.sync().ref('books').push(bid);
+        var userref = wilddog.sync().ref('users').child(uid);
         userref.once('value', nameSnapshot => {
             var val = nameSnapshot.val();
-            setBookList.child('fromusername').set(val.username);
-            setBookList.child('fromuserimage').set(val.image);
+            setBookList.set({
+                'fromusername' : val.username,
+                'fromuserimage' : val.image
+            })
         });
-        setBookList.child('bid').set(bid);
-        setBookList.child('bookname').set(this.bookList.bookName);
-        setBookList.child('bookcontent').set(this.bookList.bookContent);
-        setBookList.child('fromuid').set(uid);
-        setBookList.child('touid').set('');
-        setBookList.child('tousername').set('');
-        setBookList.child('touserimage').set('');
-        setBookList.child('image').set('http://airing.ursb.me/image/plant/1.jpg');
-        setBookList.child('place').set(this.bookList.bookLocation);
-        setBookList.child('status').set('等待交易');
-        setBookList.child('price').set(this.bookList.bookPrice);
-        setBookList.child('classify').set(this.bookList.bookType);
-        setBookList.child('change').set(this.bookList.bookChange);
+        setBookList.set({
+            'bid' : bid,
+            'bookname' : this.bookList.bookName,
+            'bookcontent' : this.bookList.bookContent,
+            'formuid' : uid,
+            'touid' : '',
+            'tousername' : '',
+            'touserimage' : '',
+            'image' : 'http://airing.ursb.me/image/plant/1.jpg',
+            'place' : this.bookList.bookLocation,
+            'status' : '等待交易',
+            'price' : this.bookList.bookPrice,
+            'classify' : this.bookList.bookType,
+            'change' : this.bookList.bookChange
+        });
         console.log('success');
     }
 

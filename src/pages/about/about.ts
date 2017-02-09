@@ -15,35 +15,56 @@ export class AboutPage {
     private userBuildList:any;
 
     constructor(private navCtrl:NavController, private toastCtrl: ToastController) {
-        var config = {
-              authDomain: "testbookapp.wilddog.com"
+        this.userAttendList = [];
+        this.userBuildList = [];
+    }
+
+    ionViewWillEnter() {
+        
+        var syncConfig = {
+          syncURL: "https://plant-book.wilddogio.com/"
         };
-        wilddog.initializeApp(config);
-    }
+        wilddog.initializeApp(syncConfig);
 
-    listBook(type, bookList) {
-        var userref = new Wilddog("https://plant-book.wilddogio.com");
-        var authData = userref.getAuth();
-        if (authData) {
-            var bookref = new Wilddog("https://plant-book.wilddogio.com/books");
-            bookref.orderByChild(type).equalTo(authData.uid).limitToLast(3).once("value", (snapshot) => {
-                snapshot.forEach((data) => {
-                    console.log(data.key());
-                    console.log(data.val());
-                    bookList.push(data.val());
+        var userConfig = {
+            authDomain: "plant-book.wilddog.com/"
+        };
+        wilddog.initializeApp(userConfig);
+        wilddog.auth().signInWithEmailAndPassword('594823346@qq.com','123456');
+        wilddog.auth().onAuthStateChanged( (user) =>{
+            this.userAttendList = [];
+            this.userBuildList = [];
+            if(user) {
+                console.log('User is logined in');
+                this.listBook(user,'touid', this.userAttendList);
+                this.listBook(user,'fromuid', this.userBuildList);
+            }else {
+                console.log('No user is logined in');
+                // 用户未登录
+                var noLoginToast = this.toastCtrl.create({
+                    message: '用户尚未登录,请先登录!',
+                    duration: 2000
                 });
-            });
-        } else {
-            // 用户未登录
-            var noLoginToast = this.toastCtrl.create({
-                message: '用户尚未登录,请先登录!',
-                duration: 2000
-            });
-            noLoginToast.present();
-        }
+                noLoginToast.present();
+            }
+        })    
     }
 
-    ionViewWillEnter(){
+    listBook(user, type, bookList) {
+        var syncConfig = {
+          syncURL: "https://plant-book.wilddogio.com/"
+        };
+        wilddog.initializeApp(syncConfig);
+
+        var bookref = wilddog.sync().ref('books');
+        console.log('bookref:' + bookref);
+        bookref.orderByChild(type).equalTo(user.uid).limitToLast(3).once("value", (snapshot) => {
+            snapshot.forEach((data) => {
+                console.log(data.key());
+                console.log(data.val());
+                bookList.push(data.val());
+            });
+        });
     }
 
     bookDetailClick(event, userAttend) {

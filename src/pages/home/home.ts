@@ -33,20 +33,6 @@ export class HomePage {
     });
     console.log(booklist);
     this.bookList = booklist;
-
-    var authConfig = {
-      authDomain: "testbookapp.wilddog.com"
-    };
-    wilddog.initializeApp(authConfig);
-    wilddog.auth().signInWithEmailAndPassword('594823346@qq.com', '123456');
-    var stopListen = wilddog.auth().onAuthStateChanged(function(user){
-      if(user){
-        console.log('User is logined in');
-        console.log(user);
-      }else{
-        console.log('No user is logined in');
-      }
-    })
   }
 
   bookDetailClick(event, book) {
