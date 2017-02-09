@@ -33,6 +33,12 @@ export class HomePage {
     });
     console.log(booklist);
     this.bookList = booklist;
+
+    var userConfig = {
+      authDomain: "plant-book.wilddog.com"
+    };
+    wilddog.initializeApp(userConfig);
+    wilddog.auth().signInWithEmailAndPassword('594823346@qq.com','123456');
   }
 
   bookDetailClick(event, book) {

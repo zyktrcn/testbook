@@ -1,20 +1,28 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, ToastController} from 'ionic-angular';
 import {SearchBookPage} from '../home/searchbook';
+import wilddog from 'wilddog';
 
 @Component({
     templateUrl: 'search.html'
 })
 export class SearchPage {
-    place;
-    classify;
-    change;
-    key;
+    private place;
+    private classify;
+    private change;
+    private key;
 
     constructor(private navCtrl:NavController, private viewCtrl:ViewController, private toastCtrl:ToastController) {
         this.place = '';
         this.classify = '';
         this.change = '';
+    }
+
+    ionViewWillEnter() {
+        var syncConfig = {
+            syncURL : 'https://plant-book.wilddogio.com'
+        };
+        wilddog.initializeApp(syncConfig);
     }
 
     //搜索栏内容
@@ -28,7 +36,7 @@ export class SearchPage {
     //搜索功能
     search() {
         var searchlist = [];
-        var bookref = new Wilddog("https://plant-book.wilddogio.com/books");
+        var bookref = wilddog.sync().ref('books');
         if(this.key != ''){
             bookref.orderByChild('bookname').startAt(this.key).endAt(this.key + '~').once("value", (snapshot) => {
                 snapshot.forEach((data) => {

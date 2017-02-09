@@ -80,6 +80,9 @@ export class AboutPage {
     }
 
     userBuildMore(event) {
-        this.navCtrl.push(UserBuild);
+        /*this.navCtrl.push(UserBuild);*/
+        console.log('Getting currentUser');
+        var currentUser = wilddog.auth().currentUser;
+        console.log(currentUser);
     }
 }
