@@ -4,7 +4,8 @@ import {bookImageEditPage} from '../home/bookimageedit';
 import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'edit.html'
+    templateUrl: 'edit.html',
+    styleUrls: ['/pages/about/edit.scss']
 })
 export class BookEdit {
 
@@ -19,22 +20,18 @@ export class BookEdit {
     }
 
     ionViewWillEnter() {
-        var userConfig = {
-            authDomain : 'plant-book.wilddog.com'
-        }
-        wilddog.initializeApp(userConfig);
+        var config = {
+          syncURL: "https://plant-book.wilddogio.com/",
+          authDomain: "plant-book.wilddog.com"
+        };
+        wilddog.initializeApp(config);
         wilddog.auth().onAuthStateChanged((user) => {
             if(user){
                 console.log('User is logined in');
             }else{
                 console.log('No suer is logined in');
             }
-        })
-
-        var syncConfig = {
-            syncURL : 'https://plant-book.wilddogio.com'
-        }
-        wilddog.initializeApp(syncConfig);
+        });
         var bookref = wilddog.sync().ref('books');
         bookref.orderByChild('bookname').equalTo(this.bookList.bookname).once("value", (snapshot) => {
             snapshot.forEach((data) => {

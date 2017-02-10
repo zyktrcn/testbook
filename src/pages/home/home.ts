@@ -6,7 +6,8 @@ import {CreatePage} from './create';
 import wilddog from 'wilddog';
 
 @Component({
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  styleUrls: ['/pages/home/home.scss']
 })
 export class HomePage {
   private bookList:any;
@@ -21,23 +22,20 @@ export class HomePage {
 
   ionViewWillEnter() {
     var booklist:any[] = [];
-    var syncConfig = {
-      syncURL: "https://plant-book.wilddogio.com/"
+    var config = {
+      syncURL: "https://plant-book.wilddogio.com/",
+      authDomain: "plant-book.wilddog.com"
     };
-    wilddog.initializeApp(syncConfig);
+    wilddog.initializeApp(config);
+
     var ref = wilddog.sync().ref("books");
-    ref.on("value", function (snapshot) {
+    ref.once("value", function (snapshot) {
       snapshot.forEach(function (snap) {
         booklist.push(snap.val());
       });
     });
     console.log(booklist);
     this.bookList = booklist;
-
-    var userConfig = {
-      authDomain: "plant-book.wilddog.com"
-    };
-    wilddog.initializeApp(userConfig);
     wilddog.auth().signInWithEmailAndPassword('594823346@qq.com','123456');
   }
 

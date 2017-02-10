@@ -2,10 +2,11 @@
 import {Component} from '@angular/core';
 import {NavController, ViewController, ToastController, LoadingController, ModalController} from 'ionic-angular';
 import {Register} from './register';
-import 'wilddog';
+import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'login.html'
+    templateUrl: 'login.html',
+    styleUrls: ['/pages/contact/login.scss']
 })
 
 export class Login {
@@ -17,9 +18,18 @@ export class Login {
                 private toastCtrl:ToastController,
                 private modalCtrl:ModalController,
                 private loadingCtrl:LoadingController) {
-        this.user = {};
-        this.user.email = "";
-        this.user.password = "";
+        this.user = {
+            email : '',
+            password : ''
+        };
+    }
+
+    ionViewWillEnter() {
+        var config = {
+            authDomain : 'plant-book.wilddog.com',
+            syncURL : 'https://plant-book.wilddogio.com'
+        }
+        wilddog.initializeApp(config);
     }
 
     /**
@@ -56,9 +66,10 @@ export class Login {
 
             loginLoading.present();
 
-            this.authWithPasswordByWilddog(this.user.email, this.user.password);
+            wilddog.auth().signInWithEmailAndPassword(this.user.email,this.user.password);
 
             loginLoading.dismiss();
+            this.viewCtrl.dismiss();
         }
     }
 
@@ -68,32 +79,6 @@ export class Login {
     register() {
         let register = this.modalCtrl.create(Register);
         register.present();
-    }
-
-
-    /**
-     * Wilddog.authWithPassword()
-     * @param email
-     * @param password
-     */
-    authWithPasswordByWilddog(email:string, password:string) {
-        var ref = new Wilddog('https://plant-book.wilddogio.com');
-        // Log me in
-        ref.authWithPassword({
-            "email": email,
-            "password": password
-        }, (error, authData) => {
-            if (error) {
-                console.log('Login Failed!', error);
-            } else {
-                console.log('Authenticated successfully with payload:', authData);
-                var userdef = new Wilddog('https://plant-book.wilddogio.com/users/' + authData.uid);
-                userdef.child('email').set(email);
-                userdef.once("value", (data) => {
-                    this.viewCtrl.dismiss(data.val());
-                });
-            }
-        });
     }
 
 

@@ -5,7 +5,8 @@ import {Discuss} from './discuss';
 import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'bookdetails.html'
+    templateUrl: 'bookdetails.html',
+    styleUrls: ['/pages/home/bookdetails.scss']
 })
 export class BookDetails {
 
@@ -16,21 +17,24 @@ export class BookDetails {
     constructor(private navCtrl:NavController, private navParams:NavParams, private modalCtrl:ModalController, private toastCtrl:ToastController) {
 
         this.book = navParams.data.book;
-        this.bid = navParams.data.book.bid;
+        this.bid = navParams.data.book.bid;        
 
+    }
+
+    ionViewWillEnter() {
         var comments = [];
         var config = {
-          syncURL: "https://plant-book.wilddogio.com/"
+          syncURL: "https://plant-book.wilddogio.com/",
+          authDomain: "plant-book.wilddog.com"
         };
         wilddog.initializeApp(config);
         var ref = wilddog.sync().ref("comments");
-        ref.on("value", function (snapshot) {
+        ref.once("value", function (snapshot) {
           snapshot.forEach(function (snap) {
             comments.push(snap.val());
           });
         });
         this.comments = comments;
-
     }
 
     bookListSave() {

@@ -3,7 +3,8 @@ import {NavController, ViewController, NavParams, ToastController} from 'ionic-a
 import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'discuss.html'
+    templateUrl: 'discuss.html',
+    styleUrls: ['/pages/home/discuss.scss']
 })
 
 export class Discuss {
@@ -17,37 +18,48 @@ export class Discuss {
         this.bid = navParams.data;
     }
 
-    onPageWillEnter() {
+    ionViewWillEnter() {
 
-        var dataref = new Wilddog('https://plant-book.wilddogio.com');
-        var authData = dataref.getAuth();
-
-        if (authData) {
-            this.uid = authData.uid;
-        } else {
-            // 用户未登录
+        var config = {
+          syncURL: "https://plant-book.wilddogio.com/",
+          authDomain: "plant-book.wilddog.com"
+        };
+        wilddog.initializeApp(config);
+        wilddog.auth().onAuthStateChanged((user) => {
+            if (user){
+                console.log('User is logined in');
+                this.uid = user.uid;
+            }else{
+                // 用户未登录
             var noLoginToast = this.toastCtrl.create({
                 message: '用户尚未登录,请先登录!',
                 duration: 2000
             });
             noLoginToast.present();
-        }
+            }
+        })
     }
 
     /**
      * 添加评论
      */
     comment() {
-        var ref = new Wilddog('https://plant-book.wilddogio.com/comments/' + this.uuid());
-        var userref = new Wilddog("https://plant-book.wilddogio.com/users/" + this.uid);
+
+        var ref = wilddog.sync().ref('comments').push(this.uuid());
+        var userref = wilddog.sync().ref('users').child(this.uid);
         userref.once('value', nameSnapshot => {
             var val = nameSnapshot.val();
-            ref.child('fromusername').set(val.username);
             //ref.child('fromuserimage').set(val.image);
+            ref.set({
+                'fromusername' : val.username,
+                'fromuid' : this.uid,
+                'text' : this.usercommend,
+                'bid' : this.bid
+            })
         });
-        ref.child('fromuid').set(this.uid);
-        ref.child('text').set(this.usercommend);
-        ref.child('bid').set(this.bid);
+
+        console.log('success');
+        this.viewCtrl.dismiss();
 
     }
 

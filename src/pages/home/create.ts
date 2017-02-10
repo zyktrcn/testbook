@@ -4,7 +4,8 @@ import {bookImageEditPage} from '../home/bookimageedit';
 import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'create.html'
+    templateUrl: 'create.html',
+    styleUrls: ['/pages/home/create.scss']
 })
 export class CreatePage {
     private bookList:any;
@@ -18,10 +19,11 @@ export class CreatePage {
 
     ionViewWillEnter() {
 
-        var userConfig = {
-            authDomain : 'plant-book.wilddog.com'
-        }
-        wilddog.initializeApp(userConfig);
+        var config = {
+          syncURL: "https://plant-book.wilddogio.com/",
+          authDomain: "plant-book.wilddog.com"
+        };
+        wilddog.initializeApp(config);
         wilddog.auth().onAuthStateChanged((user) => {
             console.log(user);
         })
@@ -111,10 +113,6 @@ export class CreatePage {
     }
 
     createBook(uid:string) {
-        var syncConfig = {
-            syncURL : 'https://plant-book.wilddogio.com'
-        }
-        wilddog.initializeApp(syncConfig);
 
         var bid:string = this.uuid();
         var setBookList = wilddog.sync().ref('books').push(bid);

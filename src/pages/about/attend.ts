@@ -5,7 +5,8 @@ import wilddog from 'wilddog';
 
 
 @Component({
-    templateUrl: 'attend.html'
+    templateUrl: 'attend.html',
+    styleUrls: ['/pages/about/attend.scss']
 })
 
 
@@ -18,15 +19,11 @@ export class UserAttend {
     }
 
     ionViewWillEnter() {
-        var syncConfig = {
-            syncURL : 'https://plant-book.wilddogio.com'
+        var config = {
+          syncURL: "https://plant-book.wilddogio.com/",
+          authDomain: "plant-book.wilddog.com"
         };
-        wilddog.initializeApp(syncConfig);
-
-        var userConfig = {
-            authDomain : 'plant-book.wilddog.com'
-        };
-        wilddog.initializeApp(userConfig);
+        wilddog.initializeApp(config);
 
         wilddog.auth().onAuthStateChanged( (user) => {
             this.userAttendList = [];
@@ -40,11 +37,6 @@ export class UserAttend {
     }
 
     listBook(user, type, bookList) {
-        var syncConfig = {
-          syncURL: "https://plant-book.wilddogio.com/"
-        };
-        wilddog.initializeApp(syncConfig);
-
         var bookref = wilddog.sync().ref('books');
         console.log(bookref);
         bookref.orderByChild(type).equalTo(user.uid).once("value", (snapshot) => {

@@ -7,7 +7,8 @@ import {UserBuild} from '../about/build';
 import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'about.html'
+    templateUrl: 'about.html',
+    styleUrls: ['/pages/about/about.scss']
 })
 export class AboutPage {
 
@@ -20,17 +21,12 @@ export class AboutPage {
     }
 
     ionViewWillEnter() {
-        
-        var syncConfig = {
-          syncURL: "https://plant-book.wilddogio.com/"
+        var config = {
+          syncURL: "https://plant-book.wilddogio.com/",
+          authDomain: "plant-book.wilddog.com"
         };
-        wilddog.initializeApp(syncConfig);
+        wilddog.initializeApp(config);
 
-        var userConfig = {
-            authDomain: "plant-book.wilddog.com/"
-        };
-        wilddog.initializeApp(userConfig);
-        wilddog.auth().signInWithEmailAndPassword('594823346@qq.com','123456');
         wilddog.auth().onAuthStateChanged( (user) =>{
             this.userAttendList = [];
             this.userBuildList = [];
@@ -51,11 +47,6 @@ export class AboutPage {
     }
 
     listBook(user, type, bookList) {
-        var syncConfig = {
-          syncURL: "https://plant-book.wilddogio.com/"
-        };
-        wilddog.initializeApp(syncConfig);
-
         var bookref = wilddog.sync().ref('books');
         console.log('bookref:' + bookref);
         bookref.orderByChild(type).equalTo(user.uid).limitToLast(3).once("value", (snapshot) => {
@@ -80,9 +71,6 @@ export class AboutPage {
     }
 
     userBuildMore(event) {
-        /*this.navCtrl.push(UserBuild);*/
-        console.log('Getting currentUser');
-        var currentUser = wilddog.auth().currentUser;
-        console.log(currentUser);
+        this.navCtrl.push(UserBuild);
     }
 }

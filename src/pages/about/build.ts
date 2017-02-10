@@ -4,7 +4,8 @@ import {BookEdit} from '../about/edit';
 import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'build.html'
+    templateUrl: 'build.html',
+    styleUrls: ['/pages/about/build.scss']
 })
 export class UserBuild {
     userBuildList;
@@ -14,15 +15,11 @@ export class UserBuild {
     }
 
     ionViewWillEnter() {
-        var syncConfig = {
-            syncURL : 'https://plant-book.wilddogio.com'
+        var config = {
+          syncURL: "https://plant-book.wilddogio.com/",
+          authDomain: "plant-book.wilddog.com"
         };
-        wilddog.initializeApp(syncConfig);
-
-        var userConfig = {
-            authDomain : 'plant-book.wilddog.com'
-        };
-        wilddog.initializeApp(userConfig);
+        wilddog.initializeApp(config);
 
         wilddog.auth().onAuthStateChanged( (user) => {
             this.userBuildList = [];

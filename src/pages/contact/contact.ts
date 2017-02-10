@@ -6,107 +6,78 @@ import wilddog from 'wilddog';
 
 
 @Component({
-    templateUrl: 'contact.html'
+    templateUrl: 'contact.html',
+    styleUrls: ['/pages/contact/contact.scss']
 })
 export class ContactPage {
 
     private userInfo:any;
 
     constructor(private navCtrl:NavController, private navParams:NavParams, private modalCtrl:ModalController, private alertCtrl:AlertController) {
-        this.userInfo = {};
-        this.userInfo.username = "";
-        this.userInfo.email = "";
-        this.userInfo.image = "";
-        this.userInfo.coin = "";
+        this.userInfo = {
+            'username' : '',
+            'email' : '',
+            'image' : '',
+            'coin' : ''
+        };
 
-        var ref = new Wilddog("https://plant-book.wilddogio.com");
-        var authData = ref.getAuth();
+        
+    }
 
-        if (authData) {
-            console.log('Authenticated user with uid:', authData.uid);
-
-            var userref = new Wilddog("https://plant-book.wilddogio.com/users/" + authData.uid);
-            userref.once('value', nameSnapshot => {
-                var val = nameSnapshot.val();
-                this.userInfo.username = val.username;
-                this.userInfo.email = val.email;
-                if (val.coin) {
-                    this.userInfo.coin = val.coin;
+    ionViewWillEnter() {
+        var config = {
+          syncURL: "https://plant-book.wilddogio.com/",
+          authDomain: "plant-book.wilddog.com"
+        };
+        wilddog.initializeApp(config);
+        var logined:boolean;
+        wilddog.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log(user.uid + ' ' + 'user is logined in');
+                var userref = wilddog.sync().ref('users').child(user.uid);
+                this.userInfo.username = user.displayName;
+                this.userInfo.email = user.email;
+                if (userref.coin) {
+                    this.userInfo.coin = userref.coin;
                 } else {
                     this.userInfo.coin = 0;
-                    userref.child('coin').set(0);
+                    userref.update({
+                        coin : 0,
+                        email : user.email,
+                        image : 'http://airing.ursb.me/image/avatar/40.png ',
+                        username : user.displayName
+                    });
                 }
-                if (val.image) {
-                    this.userInfo.image = val.image;
+                if (user.image) {
+                    this.userInfo.image = user.image;
                 } else {
                     this.userInfo.image = 'http://airing.ursb.me/image/avatar/40.png';
-                    userref.child('image').set('http://airing.ursb.me/image/avatar/40.png');
-                }
-
-            });
-        } else {
-            let loginModal = this.modalCtrl.create(Login);
-            loginModal.onDidDismiss(data => {
-                if (data.username) {
-                    this.userInfo.username = data.username;
-                    this.userInfo.email = data.email;
-                } else {
-                    this.userInfo.email = data.email;
-                    let userNameInput = this.alertCtrl.create({
-                        title: '请输入用户名',
-                        inputs: [
-                            {
-                                name: 'username',
-                                placeholder: '用户名',
-                                type: 'text'
-                            }
-                        ],
-                        buttons: [
-                            {
-                                text: '确定',
-                                role: '确定',
-                                handler: data => {
-                                    if (data.username) {
-                                        this.userInfo.username = data.username;
-                                        this.userInfoEdit('username', data.username);
-                                        return true;
-                                    } else {
-                                        return false;
-                                    }
-                                }
-                            }
-                        ]
+                    user.updateProfile({
+                        'photoURL' : 'http://airing.ursb.me/image/avatar/40.png'
                     });
-                    userNameInput.present();
                 }
-            });
+                logined = true;
+            } else {
+                logined = false;
+            }
+        });
+        if (logined == false){
+            let loginModal = this.modalCtrl.create(Login);
             loginModal.present();
         }
+        
+        
     }
 
     /**
      * 注销用户
      */
     loginOut() {
-        var ref = new Wilddog("https://plant-book.wilddogio.com");
         // 注销用户
-        ref.unauth();
-
+        wilddog.auth().signOut();
         // 返回登录页
         let loginModal = this.modalCtrl.create(Login);
         loginModal.present();
-    }
-
-    userInfoEdit(key, data) {
-        var ref = new Wilddog("https://plant-book.wilddogio.com");
-        var authData = ref.getAuth();
-
-        if (authData) {
-            var userref = new Wilddog("https://plant-book.wilddogio.com/users/" + authData.uid);
-            userref.child(key).set(data);
-        } else {
-            console.log('setting failed');
-        }
     }
 
     userNameEdit() {
@@ -126,7 +97,22 @@ export class ContactPage {
                     handler: data => {
                         if (data.username) {
                             this.userInfo.username = data.username;
-                            this.userInfoEdit('username', data.username);
+                            var currentUser = wilddog.auth().currentUser;
+                            if(currentUser || currentUser != undefined){
+                                console.log('User is logined in');
+                                currentUser.updateProfile({
+                                    displayName : data.username,
+                                })
+                                .then(function(user){
+                                    console.info('update user ->',user);
+                                })
+                                .catch(function(err) {
+                                    console.info('update user info failed.',err);
+                                });
+                            }else{
+                                console.log('No user is logined in');
+                                console.log('UserInfo set failed');
+                            }
                             return true;
                         } else {
                             return false;

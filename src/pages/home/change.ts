@@ -2,7 +2,8 @@ import {Component} from '@angular/core';
 import {NavController, ViewController} from 'ionic-angular';
 
 @Component({
-    templateUrl: 'change.html'
+    templateUrl: 'change.html',
+    styleUrls: ['/pages/home/change.scss']
 })
 export class ChangePage {
     bookList;

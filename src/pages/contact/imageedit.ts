@@ -5,7 +5,8 @@ import {NavController, ViewController, NavParams, ToastController} from 'ionic-a
 import {Http} from "@angular/http";
 
 @Component({
-    templateUrl: 'imageedit.html'
+    templateUrl: 'imageedit.html',
+    styleUrls: ['/pages/contact/imageedit.scss']
 })
 export class imageEditPage {
     imagelist;

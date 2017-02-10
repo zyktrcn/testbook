@@ -14,3 +14,21 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+@import "../pages/home/home";
+@import "../pages/home/searchbook";
+@import "../pages/home/create";
+@import "../pages/home/discuss";
+@import "../pages/home/change";
+@import "../pages/home/bookdetails";
+@import "../pages/home/bookimageedit";
+
+@import "../pages/about/about";
+@import "../pages/about/attend";
+@import "../pages/about/build";
+@import "../pages/about/edit";
+
+@import "../pages/contact/contact";
+@import "../pages/contact/imageedit";
+@import "../pages/contact/login";
+@import "../pages/contact/register";

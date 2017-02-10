@@ -4,7 +4,8 @@ import {SearchBookPage} from '../home/searchbook';
 import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'search.html'
+    templateUrl: 'search.html',
+    styleUrls: ['/pages/home/search.scss']
 })
 export class SearchPage {
     private place;
@@ -19,10 +20,11 @@ export class SearchPage {
     }
 
     ionViewWillEnter() {
-        var syncConfig = {
-            syncURL : 'https://plant-book.wilddogio.com'
+        var config = {
+          syncURL: "https://plant-book.wilddogio.com/",
+          authDomain: "plant-book.wilddog.com"
         };
-        wilddog.initializeApp(syncConfig);
+        wilddog.initializeApp(config);
     }
 
     //搜索栏内容

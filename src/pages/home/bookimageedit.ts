@@ -4,7 +4,8 @@ import {Http} from "@angular/http";
 import wilddog from 'wilddog';
 
 @Component({
-    templateUrl: 'bookimageedit.html'
+    templateUrl: 'bookimageedit.html',
+    styleUrls: ['/pages/home/bookimageedit.scss']
 })
 export class bookImageEditPage {
     imagelist;
